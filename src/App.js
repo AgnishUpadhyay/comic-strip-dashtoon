@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import './App.css';
-import query from './api';
-import { storage } from './firebase';
-import { PDFDocument } from 'pdf-lib';
 import { saveAs } from 'file-saver';
+import './App.css';
+import jsPDF from 'jspdf';
 
 function App() {
   const [isCreating, setIsCreating] = useState(false);
   const [comicInputs, setComicInputs] = useState(new Array(10).fill(''));
   const [comicImages, setComicImages] = useState(new Array(10).fill(null));
-  const [currentInput, setCurrentInput] = useState('');
 
   const handleInputChange = (event, index) => {
     const newInputs = [...comicInputs];
@@ -21,16 +18,69 @@ function App() {
     setIsCreating(true);
   };
 
+  const placeholderImageUrl = 'https://placekitten.com/512/512';
+
+  const generateAndSharePDF = async () => {
+    try {
+      const imageUrls = comicImages.filter(Boolean);
+      const pdf = new jsPDF({ unit: 'px', format: 'letter' }); // Set the format to 'letter' or adjust as needed
+      const totalPanels = imageUrls.length;
+      const panelsPerPage = 1;
+      const panelWidth = pdf.internal.pageSize.getWidth() - 20; // Adjust the margin as needed
+      const panelHeight = pdf.internal.pageSize.getHeight() - 20; // Adjust the margin as needed
+      const margin = 10;
+  
+      for (let i = 0; i < totalPanels; i++) {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = imageUrls[i];
+  
+        await new Promise((resolve, reject) => {
+          img.onload = () => {
+            // Add image to PDF
+            const pageNumber = i;
+            const x = margin;
+            const y = margin;
+  
+            try {
+              //pdf.addImage(img, 'JPEG', x, y + pageNumber * panelHeight, panelWidth, panelHeight);
+              pdf.addImage(img, 'JPEG', x, y, panelWidth, panelHeight);
+              if (i < totalPanels - 1) {
+                pdf.addPage(); // Add a new page for each panel
+              }
+              resolve();
+            } catch (error) {
+              console.error('Error adding image to PDF:', error);
+              reject(error);
+            }
+          };
+  
+          img.onerror = (error) => {
+            console.error('Error loading image:', error);
+            reject(error);
+          };
+        });
+      }
+  
+      pdf.save('comic-strip.pdf');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
+  };
+  
+  
+  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     try {
       const newInputs = comicInputs.map((input) => input + ' comic strip');
       const results = [];
-  
+
       for (let i = 0; i < newInputs.length; i++) {
         let queryInput = newInputs[i];
-  
+
         if (i === 0) {
           queryInput += ' cover page';
         } else {
@@ -41,57 +91,19 @@ function App() {
             .slice(0, 5);
           queryInput += ' ' + previousWords.join(' ');
         }
-        const result = await query({ inputs: queryInput });
-        results.push(URL.createObjectURL(result));
+        const result = { data: placeholderImageUrl };
+        results.push(result.data);
       }
+
       setComicImages(results);
     } catch (error) {
       console.error('Error calling the API:', error);
-    }
-  };
-  
-
-  const generateAndSharePDF = async () => {
-    try {
-      // Assuming your images are stored in the `comicImages` state
-      const imageUrls = comicImages.filter(Boolean);
-  
-      // Create a new PDF document
-      const pdfDoc = await PDFDocument.create();
-  
-      // Iterate through image URLs and add each image to the PDF
-      for (const url of imageUrls) {
-        const imageBytes = await fetch(url).then((response) => response.arrayBuffer());
-        const image = await pdfDoc.embedPng(imageBytes);
-        const page = pdfDoc.addPage();
-        page.drawImage(image, {
-          x: 50,
-          y: 500,
-          width: 400,
-          height: 200,
-        });
-      }
-  
-      // Save the PDF
-      const pdfBytes = await pdfDoc.save();
-      const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
-  
-      // Provide a way for the user to download or share the PDF
-      saveAs(pdfBlob, 'comic-strip.pdf');
-    } catch (error) {
-      console.error('Error generating PDF:', error);
     }
   };
 
   return (
     <div className="App">
       <header className="App-header">
-      <div className="navbar">
-          <h1>Comic Strip Generator</h1>
-          <a href="https://www.linkedin.com/in/agnish123/" target="_blank" rel="noopener noreferrer">
-            About Me
-          </a>
-        </div>
         {isCreating ? (
           <>
             <h2>Enter detailed captions for panels</h2>
@@ -110,9 +122,11 @@ function App() {
                   </div>
                 ))}
               </div>
-              <button type="submit" className="generate-button">Generate Comic</button>
+              <button type="submit" className="generate-button">
+                Generate Comic
+              </button>
               <button type="button" onClick={generateAndSharePDF} className="share-button">
-              Share Comic as PDF
+                Share Comic
               </button>
             </form>
             <div className="image-holders">
@@ -127,7 +141,8 @@ function App() {
           <div className="intro-page">
             <h1>Welcome to the Comic Strip Generator!</h1>
             <p>
-              Unleash the creative mind inside you. Give an idea to the tool and wait for the magic to happen.
+              Unleash the creative mind inside you. Give an idea to the tool and wait for the magic
+              to happen.
             </p>
             <button onClick={handleStartCreating}>Generate Panels</button>
           </div>
@@ -136,6 +151,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
