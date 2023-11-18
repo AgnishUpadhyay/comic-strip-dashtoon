@@ -13,8 +13,25 @@
   }
 }
 
+.share-button {
+  margin-top: 15px;
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #3498db; /* Change the color as needed */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.share-button:hover {
+  background-color: #2980b9; /* Change the color for the hover effect */
+}
+
 .App-header {
-  background-color: #282c34;
+  background-color: rgb(36, 34, 34);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +52,185 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* App.css */
+
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f0f0;
+}
+
+/* .App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+} */
+
+.intro-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: rgb(25, 86, 146);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px whitesmoke;
+}
+
+.intro-page h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.intro-page p {
+  font-size: 1.2em;
+  line-height: 1.4;
+  margin-bottom: 30px;
+}
+
+.intro-page button {
+  background-color: #97d0df;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.intro-page button:hover {
+  background-color: #4fa3d1;
+}
+
+.navbar {
+  background-color: rgb(98, 148, 131);
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar h1 {
+  color: black;
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.navbar a {
+  color: black;
+  text-decoration: underline;
+  font-size: 1.2em;
+}
+
+.panel {
+  margin-bottom: 20px;
+}
+
+.panel label {
+  font-size: 1.2em;
+  margin-right: 10px;
+}
+
+.panel input {
+  padding: 10px;
+  font-size: 1em;
+  width: 300px;
+}
+
+.panel button {
+  background-color: #61dafb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.panel button:hover {
+  background-color: #4fa3d1;
+}
+
+.panel button {
+  background-color: #61dafb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.panel button:hover {
+  background-color: #4fa3d1;
+}
+
+.generate-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  font-size: 1.5em;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
+
+.generate-button:hover {
+  background-color: #45a049;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #3498db;
+  color: black;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 8px;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+.dropdown-content input {
+  padding: 8px;
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.share-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.share-button:hover {
+  background-color: #45a049;
 }
