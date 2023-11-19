@@ -4,6 +4,7 @@ import jsPDF from 'jspdf';
 import query from './api';
 import portfolioIcon from './gojobob.png';
 
+
 function App() {
   const [isCreating, setIsCreating] = useState(false);
   const [comicInputs, setComicInputs] = useState(new Array(10).fill(''));
@@ -88,9 +89,13 @@ function App() {
             .slice(0, 5);
           queryInput += ' ' + previousWords.join(' ');
         }
+        console.log(`Making API call for input: ${queryInput}`);
         const result = await query({ inputs: queryInput });
+        //const imageUrl = URL.createObjectURL(result.data);
+        results.push(URL.createObjectURL(result));
+        console.log(`API call result for input ${i}:`, result);
         //const result = { data: placeholderImageUrl };
-        results.push(result.data);
+        //results.push(result.data);
       }
 
       setComicImages(results);
@@ -98,7 +103,6 @@ function App() {
       console.error('Error calling the API:', error);
     }
   };
-
   return (
     <div className="App">
       <header className="App-header">
@@ -109,21 +113,20 @@ function App() {
               <div className="panels">
                 {comicInputs.map((input, index) => (
                   <div key={index} className="panel">
-                    <label>
-                      Panel {index + 1}:
-                      <input
-                        type="text"
-                        value={input}
-                        onChange={(event) => handleInputChange(event, index)}
-                      />
-                    </label>
-                  </div>
+                  <label>Panel {index + 1}:</label>
+                  <input
+                    type="text"
+                    value={input}
+                    onChange={(event) => handleInputChange(event, index)}
+                  />
+                </div>
                 ))}
               </div>
               <button type="submit" className="generate-button">
                 Generate Comic
               </button>
-              <button type="button" onClick={generateAndSharePDF} className="share-button">
+              <button type="button" onClick={generateAndSharePDF} className="share-button" style={{ float: 'right', backgroundColor: '#1E90FF', color: 'white' }}>
+                
                 Share Comic
               </button>
             </form>
@@ -138,7 +141,6 @@ function App() {
         ) : (
           <div className="intro-page">
             <h1 style={{ color: '#00aaff' }}>Welcome to the Comic Strip Generator!</h1>
-
             <p>
               Unleash the creative mind inside you. Give an idea to the tool and wait for the magic
               to happen.
@@ -173,7 +175,7 @@ function App() {
           cursor: 'pointer',
         }}
       >
-        {/* Yoda icon */}
+        { }
         <img
           src={portfolioIcon}
           alt="Portfolio Icon"
