@@ -19,7 +19,7 @@ function App() {
   const handleStartCreating = () => {
     setIsCreating(true);
   };
-
+  //placeholder for testing purposes
   const placeholderImageUrl = 'https://placekitten.com/512/512';
 
   const generateAndSharePDF = async () => {
@@ -78,10 +78,12 @@ function App() {
 
       for (let i = 0; i < newInputs.length; i++) {
         let queryInput = newInputs[i];
-
+        //since first page is cover, add cover page to make more natural
         if (i === 0) {
           queryInput += ' cover page';
         } else {
+          //in order to extend the previous slides to the current slides, I am considering 
+          //at most 5 longest words from the previous panel
           const previousWords = comicInputs[i - 1]
             .split(' ')
             .filter((word) => word.length > 0)
