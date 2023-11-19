@@ -31,7 +31,7 @@
 }
 
 .App-header {
-  background-color: rgb(36, 34, 34);
+  background: linear-gradient(to bottom, #000000, #808080);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -72,7 +72,7 @@ body {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-  background-color: rgb(25, 86, 146);
+  background-color: rgb(0, 0, 0);
   border-radius: 10px;
   box-shadow: 0 4px 8px whitesmoke;
 }
@@ -140,7 +140,7 @@ body {
 }
 
 .panel button {
-  background-color: #61dafb;
+  background-color: #0b4d5f;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -151,11 +151,11 @@ body {
 }
 
 .panel button:hover {
-  background-color: #4fa3d1;
+  background-color: #145e85;
 }
 
 .panel button {
-  background-color: #61dafb;
+  background-color: #2bcffd;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -182,44 +182,6 @@ body {
 
 .generate-button:hover {
   background-color: #45a049;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropbtn {
-  background-color: #3498db;
-  color: black;
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  border-radius: 8px;
-}
-
-.dropdown-content.show {
-  display: block;
-}
-
-.dropdown-content input {
-  padding: 8px;
-  border: none;
-  width: 100%;
-  box-sizing: border-box;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
 }
 
 .share-button {

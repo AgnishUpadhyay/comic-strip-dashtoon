@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { saveAs } from 'file-saver';
 import './App.css';
 import jsPDF from 'jspdf';
+import query from './api';
+import portfolioIcon from './gojobob.png';
 
 function App() {
   const [isCreating, setIsCreating] = useState(false);
@@ -23,11 +24,11 @@ function App() {
   const generateAndSharePDF = async () => {
     try {
       const imageUrls = comicImages.filter(Boolean);
-      const pdf = new jsPDF({ unit: 'px', format: 'letter' }); // Set the format to 'letter' or adjust as needed
+      const pdf = new jsPDF({ unit: 'px', format: 'letter' }); 
       const totalPanels = imageUrls.length;
       const panelsPerPage = 1;
-      const panelWidth = pdf.internal.pageSize.getWidth() - 20; // Adjust the margin as needed
-      const panelHeight = pdf.internal.pageSize.getHeight() - 20; // Adjust the margin as needed
+      const panelWidth = pdf.internal.pageSize.getWidth() - 20; 
+      const panelHeight = pdf.internal.pageSize.getHeight() - 20; 
       const margin = 10;
   
       for (let i = 0; i < totalPanels; i++) {
@@ -37,7 +38,6 @@ function App() {
   
         await new Promise((resolve, reject) => {
           img.onload = () => {
-            // Add image to PDF
             const pageNumber = i;
             const x = margin;
             const y = margin;
@@ -46,7 +46,7 @@ function App() {
               //pdf.addImage(img, 'JPEG', x, y + pageNumber * panelHeight, panelWidth, panelHeight);
               pdf.addImage(img, 'JPEG', x, y, panelWidth, panelHeight);
               if (i < totalPanels - 1) {
-                pdf.addPage(); // Add a new page for each panel
+                pdf.addPage(); 
               }
               resolve();
             } catch (error) {
@@ -67,9 +67,6 @@ function App() {
       console.error('Error generating PDF:', error);
     }
   };
-  
-  
-  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -91,7 +88,8 @@ function App() {
             .slice(0, 5);
           queryInput += ' ' + previousWords.join(' ');
         }
-        const result = { data: placeholderImageUrl };
+        const result = await query({ inputs: queryInput });
+        //const result = { data: placeholderImageUrl };
         results.push(result.data);
       }
 
@@ -139,15 +137,51 @@ function App() {
           </>
         ) : (
           <div className="intro-page">
-            <h1>Welcome to the Comic Strip Generator!</h1>
+            <h1 style={{ color: '#00aaff' }}>Welcome to the Comic Strip Generator!</h1>
+
             <p>
               Unleash the creative mind inside you. Give an idea to the tool and wait for the magic
               to happen.
             </p>
-            <button onClick={handleStartCreating}>Generate Panels</button>
+            <button
+            onClick={handleStartCreating}
+            style={{
+              color: 'black',
+              backgroundColor: '#87CEEB', 
+              transition: 'color 0.3s, background-color 0.3s', 
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.color = 'white';
+              e.target.style.backgroundColor = '#1E90FF'; 
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.color = 'black';
+              e.target.style.backgroundColor = '#87CEEB'; 
+            }}>
+            Generate Panels
+          </button>
+
           </div>
         )}
       </header>
+      <div
+        style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          padding: '10px',
+          cursor: 'pointer',
+        }}
+      >
+        {/* Yoda icon */}
+        <img
+          src={portfolioIcon}
+          alt="Portfolio Icon"
+          style={{ width: '30px', height: '30px', marginRight: '5px' }}
+          onClick={() => window.open('https://agnishupadhyay.github.io/agnishh/proo.html')}
+        />
+        <span style={{ textDecoration: 'underline' }}>More about me</span>
+      </div>
     </div>
   );
 }
